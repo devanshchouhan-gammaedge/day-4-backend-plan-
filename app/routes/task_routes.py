@@ -1,12 +1,12 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from app.schemas.task_model import Task
-
+from app.routes.auth import get_current_user
 router = APIRouter(prefix="/tasks")
 
 task_list = []
 next_task_id = 1
 @router.get("/")
-def get_tasks():
+def get_tasks(current_user: dict = Depends(get_current_user)):
     return {
         "message": "List of tasks",
         "tasks": task_list
